@@ -1,6 +1,5 @@
 package com.example
-@Grab(group='org.yaml', module='snakeyaml', version='1.5')
-import org.yaml.snakeyaml.Yaml
+import groovy.yaml.YamlSlurper
 
 class Pipeline {
     def script
@@ -17,9 +16,9 @@ class Pipeline {
 //           for example: script.node(), script.stage() etc
 
 //    ===================== Parse configuration file ==================
-	def yaml = new Yaml()
+	def yaml = new YamlSlurper()
 	def file = new File(configurationFile)
-	def config = yaml.load(file.text)
+	def config = yaml.parseText(file.text)
 	
 
 	def tests=[:]
