@@ -1,4 +1,6 @@
 package com.example
+@Grab(group='org.yaml', module='snakeyaml', version='1.5')
+import org.yaml.snakeyaml.Yaml
 
 class Pipeline {
     def script
@@ -16,8 +18,9 @@ class Pipeline {
 
 //    ===================== Parse configuration file ==================
 	def yaml = new Yaml()
-
-	def config = yaml.load(this.configurationFile)
+	def file = new File(configurationFile)
+	def config = yaml.load(file.text)
+	
 
 	def tests=[:]
 
