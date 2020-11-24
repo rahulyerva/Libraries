@@ -8,7 +8,7 @@ class Pipeline {
         this.script = script
         this.configurationFile = configurationFile
     }
-	
+
     def execute() {
 //    ===================== Your Code Starts Here =====================
 //    Note : use "script" to access objects from jenkins pipeline run (WorkflowScript passed from Jenkinsfile)
@@ -21,7 +21,14 @@ class Pipeline {
 
 	def tests=[:]
 
-	
+	def notifyFailed() {
+  		emailext (
+			to:"${config.notification.email.to}",
+      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+    			)
+	}
 
 	tests["performance"] = {
   		stage ("performance"){    
@@ -31,12 +38,7 @@ class Pipeline {
 					sh "${config.test[0].testCommand}"
 				}
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
     			}
   		}
@@ -50,12 +52,7 @@ class Pipeline {
 					
 				}
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
 				
     			}
@@ -69,12 +66,7 @@ class Pipeline {
 					sh "${config.test[2].testCommand}"
 				}
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
     			}
   		}
@@ -89,12 +81,7 @@ class Pipeline {
 					sh "cd .."
 				}
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
 			
 		}
@@ -106,12 +93,7 @@ class Pipeline {
 					sh "cd .."
 				}			
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
 			
 		}
@@ -124,12 +106,7 @@ class Pipeline {
 					sh "cd .."
 				}
 				catch(e){
-					emailext (
-			to:"${config.notification.email.to}",
-      			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-      			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-        		<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
-    			)
+					notifyFailed()
 				}
 			
 		}
